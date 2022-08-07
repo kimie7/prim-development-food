@@ -166,6 +166,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'profile'], function () {
     Route::post('/updatePwd/{id}', 'ProfileController@updatePwd')->name('profile.updatePwd');
 });
 
+Route::group(['middleware' => ['auth'], 'prefix' => 'dish'], function () {
+    Route::get('printabc', 'DishController@printabc');
+});
+
 Route::group(['middleware' => ['auth']], function () {
     Route::resources([
         'school'             => 'SchoolController',
@@ -183,7 +187,8 @@ Route::group(['middleware' => ['auth']], function () {
         'reminder'           => 'ReminderController',
         'activity'           => 'ActivityController',
         'session'            => 'SessionController',
-        'profile'            => 'ProfileController'
+        'profile'            => 'ProfileController',
+        'dish'               => "DishController"
     ]);
 });
 

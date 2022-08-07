@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Dish;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use View;
 
 class DishController extends Controller
 {
@@ -15,6 +17,7 @@ class DishController extends Controller
     public function index()
     {
         //
+        return view('dish.index');
     }
 
     /**
@@ -25,6 +28,16 @@ class DishController extends Controller
     public function create()
     {
         //
+        // $type_dish = Dish::all();
+        $type_dish = DB::table('dish_type')
+                ->get();
+        $org = DB::table('organizations')
+                ->get();  
+        return view('dish.add', compact('type_dish','org'));
+        /* $type_org1 = DB::table('dish_type')
+                ->get();
+
+        dd($type_org1); */
     }
 
     /**
@@ -36,6 +49,25 @@ class DishController extends Controller
     public function store(Request $request)
     {
         //
+        $this->validate($request, [
+            'name'          =>  'required',
+            // 'icno'          =>  'required',
+            'price'         =>  'required',
+            'dish_image'         =>  'required',
+            'organ_id'  =>  'required',
+            'dish_type'  =>  'required'
+        ]);
+        
+        $newdish = new Dish([
+            'name'           =>  $request->get('name'),
+            // 'icno'           =>  $request->get('icno'),
+            'email'          =>  $request->get('email'),
+            'password'       =>  Hash::make('abc123'),
+            'telno'          =>  $request->get('telno'),
+            'remember_token' =>  $request->get('_token'),
+            // 'created_at'     =>  now(),
+        ]);
+        $newdish->save();
     }
 
     /**
@@ -81,5 +113,10 @@ class DishController extends Controller
     public function destroy(Dish $dish)
     {
         //
+    }
+
+    public function printabc()
+    {
+        return "adsfasdf";
     }
 }

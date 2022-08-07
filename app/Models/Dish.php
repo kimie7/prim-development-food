@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class Dish extends Model
 {
     //
+    //protected $fillable = ['nama', 'levelid', 'status'];
 }

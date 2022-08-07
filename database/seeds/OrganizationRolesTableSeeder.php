@@ -46,6 +46,12 @@ class OrganizationRolesTableSeeder extends Seeder
                 "id" => 3,
                 "nama" => "Jaim",
             ),
+
+            6 =>
+            array(
+                "id" => 1000,
+                "nama" => "Admin Food",
+            ),
         ));
     }
 }

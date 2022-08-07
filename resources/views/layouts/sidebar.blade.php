@@ -229,6 +229,12 @@
             </ul>
             </li>
             @endrole
+            <li>
+                <a href="{{ route('dish.index') }}" class=" waves-effect">
+                    <i class="mdi mdi-account-group"></i>
+                    <span>FOOD</span>
+                </a>
+            </li>
             </ul>
         </div>
     </div>
