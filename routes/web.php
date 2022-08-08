@@ -252,7 +252,6 @@ Route::get('/receipt', 'PayController@showReceipt');
 
 Route::get('list', 'LandingPageController@getDonationDatatable')->name('landing-page.getOrganizationDatatable');
 
-
 Route::group(['prefix' => 'session'], function () {
     Route::get('session/get', 'SessionController@accessSessionData')->name('getsession');
     Route::get('session/set', 'SessionController@storeSessionData')->name('setsession');
@@ -271,3 +270,5 @@ Route::group(['prefix' => 'polimas'], function () {
         Route::post('/exportstudent', 'PolimasController@StudentExport')->name('polimas.studentexport');
     });
 });
+
+Route::post('mobile/order/orderTransaction', 'OrderController@orderTransaction');

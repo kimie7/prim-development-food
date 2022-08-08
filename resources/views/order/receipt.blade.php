@@ -24,6 +24,7 @@
 </head>
 
 <body>
+    <div>You are being redirected to our homepage in <span id="time">5</span> seconds</div>
     <div class="container">
         <div class="row mt-3">
             <div class="col-12">
@@ -32,15 +33,15 @@
                         <div class="row">
                             <div class="col-lg-2 col-sm-12 p-0">
                                 <center>
-                                    <img src="{{ URL::asset('/organization-picture/'.$get_organization->organization_picture) }}" height="80"
+                                    <img src="{{ URL::asset('/organization-picture/'. $organization->organization_picture) }}" height="80"
                                         alt="" />
                                 </center>
                             </div>
                             <div class="col-lg-6 col-sm-12 p-0">
-                                <h4>{{ $get_organization->nama }}</h4>
-                                <p>{{ $get_organization->address }},
+                                <h4>{{ $organization->nama }}</h4>
+                                <p>{{ $organization->address }},
                                     <br />
-                                    {{ $get_organization->postcode }} {{ $get_organization->city }}, {{ $get_organization->state }}
+                                    {{ $organization->postcode }} {{ $organization->city }}, {{ $organization->state }}
                                 </p>
                             </div>
                             <div class="col-lg-4 col-sm-12">
@@ -51,32 +52,32 @@
                                     <tr>
                                         <td>No Resit</td>
                                         <td style="width: 50px">:</td>
-                                        <td>{{ $get_transaction->description }}</td>
+                                        <td>{{ $transaction->description }}</td>
                                     </tr>
                                     <tr>
                                         <td>Tarikh</td>
                                         <td style="width: 50px">:</td>
-                                        <td>{{ $get_transaction->datetime_created->format('j M Y H:i:s A')}}</td>
+                                        <td>{{ $transaction->datetime_created->format('j M Y H:i:s A')}}</td>
                                     </tr>
                                 </table>
                             </div>
                             <div class="col-12 pt-3">
                                 <table style="width:100%" class="infotbl">
                                     <tr style="background-color:#e9ecef">
-                                        <th colspan="9" class="text-center">Maklumat Penjaga</th>
+                                        <th colspan="9" class="text-center">Maklumat Pembeli</th>
                                     </tr>
                                     <tr>
                                         <td class="py-3">Nama</td>
                                         <td class="py-2">:</td>
-                                        <td class="py-2 w-50">{{ $getparent->name }}</td>
+                                        <td class="py-2 w-50">{{ $user->name }}</td>
                                         <td class="py-2" colspan="3"></td>
                                         <td class="py-2">No. Kad Pengenalan
                                         </td>
                                         <td class="py-2">:</td>
-                                        <td class="py-2">{{ $getparent->icno }}</td>
+                                        <td class="py-2">{{ $user->icno }}</td>
                                     </tr>
                                     <tr style="background-color:#e9ecef">
-                                        <th colspan="9" class="text-center">Maklumat Yuran</th>
+                                        <th colspan="9" class="text-center">Maklumat Order</th>
                                     </tr>
                                     {{-- <tr style="border-bottom:2px solid #e0e0e0">
                                         <td colspan="9" class="pt-2" style="font-size: 18px">
@@ -84,16 +85,9 @@
                                         </td>
                                     </tr> --}}
                                 </table>
-
-                                @if (count($getfees_categoryA) != 0)
-                                <div class="pt-2" style="border-bottom:2px solid #e0e0e0;font-size: 18px">
-                                    {{ $get_organization->nama }}
-                                </div>
-
-
-
+                                
                                 <div class="pt-2 pb-2">
-                                    Kategori A
+                                    
                                 </div>
 
                                 <table class="table table-bordered table-striped" style="">
@@ -104,7 +98,7 @@
                                         <th style="width:20%">Amaun per item (RM)</th>
                                         <th style="width:20%">Amaun (RM)</th>
                                     </tr>
-                                    @foreach ($getfees_categoryA as $item)
+                                    @foreach ($order_dishes as $item)
                                     <tr>
                                         <td style="text-align: center"> {{ $loop->iteration }}.</td>
                                         <td>
@@ -114,7 +108,7 @@
                                         <td style="text-align: center">
                                             {{  number_format((float)$item->price, 2, '.', '') }} </td>
                                         <td style="text-align: center">
-                                            {{  number_format((float)$item->totalAmount, 2, '.', '')  }}</td>
+                                            {{  number_format((float)$item->price * $item->quantity, 2, '.', '')  }}</td>
                                     </tr>
                                     @endforeach
 
@@ -122,72 +116,12 @@
                                         <td></td>
                                         <td colspan="3" style="text-align:center"><b>Jumlah</b> </td>
                                         <td style="text-align:center">
-                                            <b>{{ number_format($getfees_categoryA->sum('totalAmount'), 2)  }}</b>
+                                            <b>{{ number_format($transaction->amount, 2)  }}</b>
 
                                         </td>
                                     </tr>
 
                                 </table>
-                                @endif
-
-                                @if (count($get_student) != 0)
-
-                                {{-- ******** --}}
-                                @foreach ($get_student as $student)
-                                <div class="pt-2" style="border-bottom:2px solid #e0e0e0;font-size: 18px">
-                                    {{ $student->nama }} ({{ $student->classname }})
-                                </div>
-                                {{-- <center class="my-2">
-                                    <span style="font-weight: bold;text-transform: uppercase;">
-                                        {{ $student->feename }}
-                                </span>
-                                </center> --}}
-
-                                @foreach ($get_category->where('studentid', $student->id) as $category)
-
-                                <div class="pt-2 pb-2">
-                                    {{ $category->category }}
-                                </div>
-
-                                <table class="table table-bordered table-striped" style="">
-                                    <tr style="text-align: center">
-                                        <th style="width:3%">Bil.</th>
-                                        <th>Item</th>
-                                        <th style="width:10%">Kuantiti</th>
-                                        <th style="width:20%">Amaun per item (RM)</th>
-                                        <th style="width:20%">Amaun (RM)</th>
-                                    </tr>
-                                    @foreach ($get_fees->where('studentid', $student->id)->where('category',
-                                    $category->category) as $item)
-                                    <tr>
-                                        <td style="text-align: center"> {{ $loop->iteration }}.</td>
-                                        <td>
-                                            <div class="pl-2"> {{ $item->name }} </div>
-                                        </td>
-                                        <td style="text-align: center">{{ $item->quantity }}</td>
-                                        <td style="text-align: center">
-                                            {{  number_format((float)$item->price, 2, '.', '') }} </td>
-                                        <td style="text-align: center">
-                                            {{  number_format((float)$item->totalAmount, 2, '.', '')  }}</td>
-                                    </tr>
-                                    @endforeach
-
-                                    <tr>
-                                        <td></td>
-                                        <td colspan="3" style="text-align:center"><b>Jumlah</b> </td>
-                                        <td style="text-align:center">
-                                            <b>{{ number_format($get_fees->where('studentid', $student->id)->where('category', $category->category)->sum('totalAmount'), 2)  }}</b>
-
-                                        </td>
-                                    </tr>
-
-                                </table>
-                                @endforeach
-
-
-
-                                @endforeach
-                                @endif
 
                                 <table style="width:100%" class="infotbl">
                                     <tr>
@@ -196,7 +130,7 @@
                                             Caj yang dikenakan oleh organisasi (RM)
                                         </td>
                                         <td style="text-align:center;width:20%">
-                                            {{  number_format((float)$get_organization->fixed_charges, 2, '.', '') }}
+                                            {{  number_format((float)$organization->fixed_charges, 2, '.', '') }}
                                         </td>
                                     </tr>
                                     <tr>
@@ -204,22 +138,10 @@
                                         <td colspan="3" style="text-align:right;font-size:18px;"><b>Jumlah Bayaran
                                                 (RM)</b> </td>
                                         <td style="text-align:center; width:20%; font-size:18px">
-                                            <b>{{  number_format((float)$get_transaction->amount, 2, '.', '') }}</b>
+                                            <b>{{  number_format((float)$transaction->amount, 2, '.', '') }}</b>
                                         </td>
                                     </tr>
                                 </table>
-
-                                <div class="col-12 pt-5 text-center">
-                                    <button class="btn btn-primary p-2 w-10 mx-2 btn-fill" style="font-size:18px"
-                                        onclick="window.print();">
-                                        <span class="mdi mdi-file-pdf"> Print </span>
-                                    </button>
-                                    <a href="/home">
-                                        <button class="btn btn-danger p-2 w-10 mx-2" style="font-size:18px;">
-                                            <span class="mdi mdi-chevron-left-circle"> Kembali</span>
-                                        </button>
-                                    </a>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -228,5 +150,14 @@
         </div>
     </div>
 </body>
-
+<script>
+    var count = 5;
+    setInterval(function(){
+        count--;
+        document.getElementById('time').innerHTML = count;
+        if (count == 0) {
+            window.location = '/derma'; 
+        }
+    },1000);
+</script>
 </html>

@@ -4,8 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Dish;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use View;
 
 class DishController extends Controller
 {
@@ -113,10 +111,5 @@ class DishController extends Controller
     public function destroy(Dish $dish)
     {
         //
-    }
-
-    public function printabc()
-    {
-        return "adsfasdf";
     }
 }
