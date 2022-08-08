@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Dish;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class DishController extends Controller
 {
@@ -112,12 +113,7 @@ class DishController extends Controller
     {
         //
     }
-<<<<<<< HEAD
-=======
 
-
-
-    //to get all dishes of a certain organization
     public function getDishByOrgId($id)
     {
         return DB::table('dishes')
@@ -142,5 +138,4 @@ class DishController extends Controller
             ->select()
             ->get();
     }
->>>>>>> main
 }
