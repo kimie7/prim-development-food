@@ -270,5 +270,3 @@ Route::group(['prefix' => 'polimas'], function () {
         Route::post('/exportstudent', 'PolimasController@StudentExport')->name('polimas.studentexport');
     });
 });
-
-Route::post('mobile/order/orderTransaction', 'OrderController@orderTransaction');
